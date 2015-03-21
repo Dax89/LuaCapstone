@@ -264,6 +264,75 @@ static int luacapstone_disasmiter(lua_State* l)
     return 1;
 }
 
+static int luacapstone_groupname(lua_State* l)
+{
+    int argc = lua_gettop(l);
+
+    EXPECT_ARGC(argc, 2);
+    EXPECT_TYPE(LUA_TNUMBER, 1);
+    EXPECT_TYPE(LUA_TNUMBER, 2);
+
+    const char* name = cs_group_name((csh)lua_tointeger(l, 1), lua_tointeger(l, 2));
+    lua_pushstring(l, name);
+    return 1;
+}
+
+static int luacapstone_instructiongroup(lua_State* l)
+{
+    int argc = lua_gettop(l);
+
+    EXPECT_ARGC(argc, 3);
+    EXPECT_TYPE(LUA_TNUMBER, 1);
+    EXPECT_TYPE(LUA_TUSERDATA, 2);
+    EXPECT_TYPE(LUA_TNUMBER, 3);
+
+    bool res = cs_insn_group((csh)lua_tointeger(l, 1), *((cs_insn**)lua_touserdata(l, 2)), lua_tointeger(l, 3));
+    lua_pushboolean(l, res);
+    return 1;
+}
+
+static int luacapstone_instructionname(lua_State* l)
+{
+    int argc = lua_gettop(l);
+
+    EXPECT_ARGC(argc, 2);
+    EXPECT_TYPE(LUA_TNUMBER, 1);
+    EXPECT_TYPE(LUA_TNUMBER, 2);
+
+    const char* name = cs_insn_name((csh)lua_tointeger(l, 1), lua_tointeger(l, 2));
+    lua_pushstring(l, name);
+    return 1;
+}
+
+static int luacapstone_operandindex(lua_State* l)
+{
+    int argc = lua_gettop(l);
+
+    EXPECT_ARGC(argc, 4);
+    EXPECT_TYPE(LUA_TNUMBER, 1);
+    EXPECT_TYPE(LUA_TUSERDATA, 2);
+    EXPECT_TYPE(LUA_TNUMBER, 3);
+    EXPECT_TYPE(LUA_TNUMBER, 4);
+
+    int idx = cs_op_index((csh)lua_tointeger(l, 1), *((cs_insn**)lua_touserdata(l, 2)), lua_tointeger(l, 3), lua_tointeger(l, 4));
+    lua_pushinteger(l, idx);
+    return 1;
+}
+
+static int luacapstone_operandcount(lua_State* l)
+{
+    int argc = lua_gettop(l);
+
+    EXPECT_ARGC(argc, 3);
+    EXPECT_TYPE(LUA_TNUMBER, 1);
+    EXPECT_TYPE(LUA_TUSERDATA, 2);
+    EXPECT_TYPE(LUA_TNUMBER, 3);
+
+    int count = cs_op_count((csh)lua_tointeger(l, 1), *((cs_insn**)lua_touserdata(l, 2)), lua_tointeger(l, 3));
+    lua_pushinteger(l, count);
+    return 1;
+}
+
 static int luacapstone_createiterator(lua_State* l)
 {
     int argc = lua_gettop(l);
@@ -327,6 +396,11 @@ static const luaL_Reg luacapstone_lib[] = { { "open", &luacapstone_open },
                                             { "free", &luacapstone_free },
                                             { "disasm", &luacapstone_disasm },
                                             { "disasmiter", &luacapstone_disasmiter },
+                                            { "groupname", &luacapstone_groupname },
+                                            { "instructiongroup", &luacapstone_instructiongroup },
+                                            { "instructionname", &luacapstone_instructionname },
+                                            { "operandindex", &luacapstone_operandindex },
+                                            { "operandcount", &luacapstone_operandcount },
                                             { "createiterator", &luacapstone_createiterator },
                                             { "freeiterator", &luacapstone_freeiterator },
                                             { NULL, NULL } };
