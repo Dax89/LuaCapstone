@@ -333,6 +333,47 @@ static int luacapstone_operandcount(lua_State* l)
     return 1;
 }
 
+static int luacapstone_registername(lua_State* l)
+{
+    int argc = lua_gettop(l);
+
+    EXPECT_ARGC(argc, 2);
+    EXPECT_TYPE(LUA_TNUMBER, 1);
+    EXPECT_TYPE(LUA_TUSERDATA, 2);
+
+    const char* name = cs_reg_name((csh)lua_tointeger(l, 1), lua_tointeger(l, 2));
+    lua_pushstring(l, name);
+    return 1;
+}
+
+static int luacapstone_registerread(lua_State* l)
+{
+    int argc = lua_gettop(l);
+
+    EXPECT_ARGC(argc, 3);
+    EXPECT_TYPE(LUA_TNUMBER, 1);
+    EXPECT_TYPE(LUA_TUSERDATA, 2);
+    EXPECT_TYPE(LUA_TNUMBER, 3);
+
+    bool res = cs_reg_read((csh)lua_tointeger(l, 1), *((cs_insn**)lua_touserdata(l, 2)), lua_tointeger(l, 3));
+    lua_pushboolean(l, res);
+    return 1;
+}
+
+static int luacapstone_registerwrite(lua_State* l)
+{
+    int argc = lua_gettop(l);
+
+    EXPECT_ARGC(argc, 3);
+    EXPECT_TYPE(LUA_TNUMBER, 1);
+    EXPECT_TYPE(LUA_TUSERDATA, 2);
+    EXPECT_TYPE(LUA_TNUMBER, 3);
+
+    bool res = cs_reg_write((csh)lua_tointeger(l, 1), *((cs_insn**)lua_touserdata(l, 2)), lua_tointeger(l, 3));
+    lua_pushboolean(l, res);
+    return 1;
+}
+
 static int luacapstone_createiterator(lua_State* l)
 {
     int argc = lua_gettop(l);
@@ -401,6 +442,9 @@ static const luaL_Reg luacapstone_lib[] = { { "open", &luacapstone_open },
                                             { "instructionname", &luacapstone_instructionname },
                                             { "operandindex", &luacapstone_operandindex },
                                             { "operandcount", &luacapstone_operandcount },
+                                            { "registername", &luacapstone_registername },
+                                            { "registerread", &luacapstone_registerwrite },
+                                            { "registerwrite", &luacapstone_registerread },
                                             { "createiterator", &luacapstone_createiterator },
                                             { "freeiterator", &luacapstone_freeiterator },
                                             { NULL, NULL } };
