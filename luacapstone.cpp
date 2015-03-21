@@ -462,5 +462,7 @@ int luaopen_capstone(lua_State *l)
     set_sysz_const(l);
     set_x86_const(l);
     set_xcore_const(l);
+
+    lua_pop(l, 1);
     return 1;
 }
