@@ -1,10 +1,14 @@
 Lua Capstone
 ========
 
-Capstone Binding for Lua<br>
-All 8 architectures are supported, take a look in "tests" folder
+Capstone Binding for Lua.<br>
+All 8 architectures are supported
 
-Usage
+Lua Usage
+-----
+Look in "tests" folder
+
+C++ Usage
 -----
 
 ```
@@ -32,3 +36,4 @@ int main()
     return 0;
 }
 ``` 
+
