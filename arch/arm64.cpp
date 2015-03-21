@@ -6,7 +6,7 @@ static int luacapstone_memoperand_metaIndex(lua_State* l)
     arm64_op_mem* memop = *((arm64_op_mem**)lua_touserdata(l, 1));
     const char* field = lua_tostring(l, 2);
 
-    VALIDATE_FIELD(cs_arm64_op, field);
+    VALIDATE_FIELD(arm64_op_mem, field);
     const arm64_op_mem_FieldInfo* fi = GetField(arm64_op_mem, field);
 
     if(fi->IsIntegral)

@@ -339,7 +339,7 @@ static int luacapstone_registername(lua_State* l)
 
     EXPECT_ARGC(argc, 2);
     EXPECT_TYPE(LUA_TNUMBER, 1);
-    EXPECT_TYPE(LUA_TUSERDATA, 2);
+    EXPECT_TYPE(LUA_TNUMBER, 2);
 
     const char* name = cs_reg_name((csh)lua_tointeger(l, 1), lua_tointeger(l, 2));
     lua_pushstring(l, name);

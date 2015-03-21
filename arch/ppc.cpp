@@ -5,7 +5,7 @@ static int luacapstone_crxoperand_metaIndex(lua_State* l)
     ppc_op_crx* crxop = *((ppc_op_crx**)lua_touserdata(l, 1));
     const char* field = lua_tostring(l, 2);
 
-    VALIDATE_FIELD(cs_ppc_op, field);
+    VALIDATE_FIELD(ppc_op_crx, field);
     const ppc_op_crx_FieldInfo* fi = GetField(ppc_op_crx, field);
 
     if(fi->IsIntegral)

@@ -5,7 +5,7 @@ static int luacapstone_memoperand_metaIndex(lua_State* l)
     mips_op_mem* memop = *((mips_op_mem**)lua_touserdata(l, 1));
     const char* field = lua_tostring(l, 2);
 
-    VALIDATE_FIELD(cs_mips_op, field);
+    VALIDATE_FIELD(mips_op_mem, field);
     const mips_op_mem_FieldInfo* fi = GetField(mips_op_mem, field);
 
     if(fi->IsIntegral)

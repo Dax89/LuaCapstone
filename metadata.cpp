@@ -167,7 +167,10 @@ BeginStructureInfo(cs_x86_op)
     StructureField(cs_x86_op, unsigned int, reg),
     StructureField(cs_x86_op, int64_t, imm),
     StructureField(cs_x86_op, double, fp),
-    StructureField(cs_x86_op, x86_op_mem, mem)
+    StructureField(cs_x86_op, x86_op_mem, mem),
+    StructureField(cs_x86_op, uint8_t, size),
+    StructureField(cs_x86_op, x86_avx_bcast, avx_bcast),
+    StructureField(cs_x86_op, bool, avx_zero_opmask)
 EndStructureInfo(cs_x86_op)
 
 BeginStructureInfo(cs_x86)

@@ -13,12 +13,12 @@
 #define EXPECT_TYPE(type, i) if(lua_type(l, i) != type) { TYPE_ERROR(i, lua_typename(l, type), luaL_typename(l, i)); }
 
 #define VALIDATE_FIELD(name, field) if(!ContainsField(name, field)) { \
-                                     lua_pushfstring(l, "Field %s not found", field); \
+                                     lua_pushfstring(l, "Field '%s' not found", field); \
                                      lua_error(l); \
                                      return 0; \
                                     }
 
-#define NOT_IMPLEMENTED(field) lua_pushfstring(l, "Field '%s'' not implemented", field); \
+#define NOT_IMPLEMENTED(field) lua_pushfstring(l, "Field '%s' not implemented", field); \
                                lua_error(l); \
                                return 0;
 
