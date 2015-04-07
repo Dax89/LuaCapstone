@@ -449,9 +449,13 @@ static const luaL_Reg luacapstone_lib[] = { { "open", &luacapstone_open },
                                             { "freeiterator", &luacapstone_freeiterator },
                                             { NULL, NULL } };
 
-int luaopen_capstone(lua_State *l)
+int luaregister_capstone(lua_State* l)
 {
-    luaL_register(l, LUACAPSTONE_LIBNAME, luacapstone_lib);
+    #if LUA_VERSION_NUM >= 502
+        luaL_newlib(l, luacapstone_lib);
+    #else
+        luaL_register(l, LUACAPSTONE_LIBNAME, luacapstone_lib);
+    #endif
 
     set_capstone_const(l);
     set_arm64_const(l);
@@ -463,6 +467,19 @@ int luaopen_capstone(lua_State *l)
     set_x86_const(l);
     set_xcore_const(l);
 
-    lua_pop(l, 1);
+    #if LUA_VERSION_NUM < 502
+        lua_pop(l, 1);
+    #endif
+
     return 1;
+}
+
+int luaopen_capstone(lua_State *l)
+{
+    #if LUA_VERSION_NUM >= 502
+        luaL_requiref(l, LUACAPSTONE_LIBNAME, &luaregister_capstone, false);
+        return 1;
+    #else
+        return luaregister_capstone(l);
+    #endif
 }
