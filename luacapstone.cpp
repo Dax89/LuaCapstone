@@ -245,6 +245,12 @@ static int luacapstone_disasm(lua_State* l)
     cs_insn* insn = NULL;
     size_t rescount = cs_disasm((csh)lua_tointeger(l, 1), pcode, lua_tointeger(l, 3), lua_tointeger(l, 4), count, &insn);
 
+    if(count == 1) /* Special Case */
+    {
+        lua_pushcstruct(l, insn, &luacapstone_insn_metaIndex, "__insn");
+        return 1;
+    }
+
     lua_pushinteger(l, rescount);
     lua_pushcstruct(l, insn, &luacapstone_insnarray_metaIndex, "__insnarray");
     return 2;
