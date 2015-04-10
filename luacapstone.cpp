@@ -99,7 +99,7 @@ static int luacapstone_insn_metaIndex(lua_State* l)
 static int luacapstone_insnarray_metaIndex(lua_State* l)
 {
     cs_insn** pinsn = (cs_insn**)lua_touserdata(l, 1);
-    lua_pushcstruct(l, (*pinsn) + (lua_tointeger(l, 2) - 1), &luacapstone_insn_metaIndex, "__insn");
+    lua_pushcstruct(l, (*pinsn) + (lua_tointeger(l, 2) - 1), &luacapstone_insn_metaIndex, "cs_insn");
     return 1;
 }
 
@@ -114,7 +114,7 @@ static int luacapstone_iterator_metaIndex(lua_State* l)
     const CapstoneIterator_FieldInfo* fi = GetField(CapstoneIterator, field);
 
     if(fi->IsStruct)
-        lua_pushcstruct(l, it->insn, &luacapstone_insn_metaIndex, "__insn");
+        lua_pushcstruct(l, it->insn, &luacapstone_insn_metaIndex, "cs_insn");
     else if(fi->IsPointer)
     {
         if((it->__codetype == LUA_TUSERDATA) || (it->__codetype == LUA_TLIGHTUSERDATA))
@@ -193,7 +193,7 @@ static int luacapstone_malloc(lua_State *l)
     EXPECT_TYPE(LUA_TNUMBER, 1);
 
     cs_insn* insn = cs_malloc((csh)lua_tointeger(l, 1));
-    lua_pushcstruct(l, insn, &luacapstone_insn_metaIndex, "__insn");
+    lua_pushcstruct(l, insn, &luacapstone_insn_metaIndex, "cs_insn");
     return 1;
 }
 
@@ -247,12 +247,12 @@ static int luacapstone_disasm(lua_State* l)
 
     if(count == 1) /* Special Case */
     {
-        lua_pushcstruct(l, insn, &luacapstone_insn_metaIndex, "__insn");
+        lua_pushcstruct(l, insn, &luacapstone_insn_metaIndex, "cs_insn");
         return 1;
     }
 
     lua_pushinteger(l, rescount);
-    lua_pushcstruct(l, insn, &luacapstone_insnarray_metaIndex, "__insnarray");
+    lua_pushcstruct(l, insn, &luacapstone_insnarray_metaIndex, "cs_insn_array");
     return 2;
 }
 
