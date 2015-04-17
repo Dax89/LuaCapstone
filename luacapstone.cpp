@@ -484,6 +484,7 @@ int luaopen_capstone(lua_State *l)
 {
     #if LUA_VERSION_NUM >= 502
         luaL_requiref(l, LUACAPSTONE_LIBNAME, &luaregister_capstone, false);
+        lua_pop(l, 1);
         return 1;
     #else
         return luaregister_capstone(l);
